@@ -1,5 +1,5 @@
 # Process-and-Resource-Manager
-##UCI CSI 143 B Project I
+## UCI CSI 143 B Project I
 
 go inside out/production/files
 
