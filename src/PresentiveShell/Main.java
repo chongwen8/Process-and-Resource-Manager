@@ -1,6 +1,7 @@
 package PresentiveShell;
 
 import DataStructure.*;
+
 import java.util.LinkedList;
 
 /***
@@ -53,7 +54,7 @@ public class Main {
         if (running != index) {
             pcbs[index] = new PCB(running, priority);
             pcbs[running].addChild(index);
-        }else {
+        } else {
             pcbs[index] = new PCB(priority);
         }
         // 1 is ready, 0 is blocked
@@ -67,10 +68,10 @@ public class Main {
      * @param index process's index
      */
     void destroyProcess(int index) {
-        while(pcbs[index].getChildrenNum() != 0){
+        while (pcbs[index].getChildrenNum() != 0) {
             destroyProcess(pcbs[index].getChild());
         }
-            pcbs[pcbs[index].getParent()].deleteChildren(); //delete itself from parent's children list
+        pcbs[pcbs[index].getParent()].deleteChildren(); //delete itself from parent's children list
         if (rl.existInRl(index)) {
             rl.removeProcess(index);
         } else {
@@ -93,7 +94,7 @@ public class Main {
              * code using for allocate resource to other resources
              * after one process request first time successfully
              * then fail to request secondly
-              */
+             */
 //            Map<Integer, Integer> allOwnedResource = pcbs[running].releaseAllResources();
 //            Iterator<Map.Entry<Integer, Integer>> it = allOwnedResource.entrySet().iterator();
 //            while (it.hasNext()) {

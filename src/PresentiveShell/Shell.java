@@ -17,7 +17,7 @@ public class Shell {
         Main in = null;
         while (true) {
             // read commands from terminal
-            System.out.print("> ");
+//            System.out.print("> ");
             Scanner sc = new Scanner(System.in);
             String command = sc.nextLine();
             String[] commands = command.split(" ");
@@ -54,7 +54,6 @@ public class Shell {
                     System.out.println(in.getRunning());
 
                 } else if (command.isEmpty()) {
-                    System.out.println();
                 } else {
                     System.out.println(-1);
                 }
