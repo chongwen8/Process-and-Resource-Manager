@@ -3,6 +3,8 @@
 
 go inside out/production/files
 
-``` java Prensentive.Shell ```
+```bash
+java Prensentive.Shell 
+```
 
 Then input related commands
