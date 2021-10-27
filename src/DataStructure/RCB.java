@@ -13,18 +13,17 @@ public class RCB {
 
     public RCB(int inventory) {
         this.inventory = inventory;
-        this.state = this.inventory;
+        this.state = inventory;
         waitingList = new LinkedList<>();
     }
 
     public boolean allocateResource(int units) {
-        if (units > state) {
-            return false;
-        } else {
-            state -= units;
-            return true;
-        }
-
+            if (units > state) {
+                return false;
+            } else {
+                state -= units;
+                return true;
+            }
     }
 
 
@@ -37,7 +36,7 @@ public class RCB {
         state += units;
         // unblock other process in waiting List
         while (!waitingList.isEmpty() && state > 0) {
-            RequestInfo temp = waitingList.peek();
+            RequestInfo temp = waitingList.getFirst();
             if (state >= temp.getUnits()) {
                 waitingList.pop();
                 state -= temp.getUnits();
@@ -64,5 +63,9 @@ public class RCB {
         if (!waitingList.isEmpty()) {
             waitingList.removeAll(removeItems);
         }
+    }
+
+    public int getInventory() {
+        return inventory;
     }
 }

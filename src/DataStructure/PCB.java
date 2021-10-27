@@ -34,7 +34,7 @@ public class PCB {
     }
 
     public int getChild() {
-        return this.children.peek();
+        return this.children.getFirst();
     }
 
     public int getParent() {

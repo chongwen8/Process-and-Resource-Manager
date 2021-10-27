@@ -85,31 +85,24 @@ public class Main {
     }
 
     void requestResource(int units, int resource) {
+        if(rcbs[resource].getInventory() >= units){
         if (rcbs[resource].allocateResource(units)) {
             pcbs[running].requestResource(resource, units);
-        } else {
+        } else {// get blocked
             pcbs[running].setState(0);
             rl.removeProcess(running);
-            /**
-             * code using for allocate resource to other resources
-             * after one process request first time successfully
-             * then fail to request secondly
-             */
-//            Map<Integer, Integer> allOwnedResource = pcbs[running].releaseAllResources();
-//            Iterator<Map.Entry<Integer, Integer>> it = allOwnedResource.entrySet().iterator();
-//            while (it.hasNext()) {
-//                Map.Entry<Integer, Integer> pair = it.next();
-//                releaseResource(pair.getKey());
-//            }
             rcbs[resource].add2WaitingList(running, units);
             scheduleProcess();
         }
-
+        }else{
+            System.out.println(-1);
+        }
+            System.out.println(running);
     }
 
     void releaseResource(int resource, int units) {
         // only allow the process releases less greater than resource they own
-        if (pcbs[running].getOwnedResource(resource) >= units) {
+        if (pcbs[running].getOwnedResource(resource) >= units && units < rcbs[resource].getInventory() ) {
             LinkedList<RequestInfo> info = rcbs[resource].releaseResource(units);
             for (RequestInfo item : info
             ) {
@@ -122,9 +115,8 @@ public class Main {
             }
             pcbs[running].releaseResource(resource);
             scheduleProcess();
-            System.out.println(running);
         } else {
-            System.out.println(-1);
+            throw new NullPointerException();
         }
 
     }
