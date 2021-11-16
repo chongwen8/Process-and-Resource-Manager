@@ -73,9 +73,9 @@ public class PCB {
     public Priority getPriority() {
         return priority;
     }
-    // return all resource owned by the process
-//    public Map<Integer, Integer> releaseAllResources(){
-//        return resources;
-//    }
+//     return all resource owned by the process
+    public Map<Integer, Integer> releaseAllResources(){
+        return resources;
+    }
 
 }

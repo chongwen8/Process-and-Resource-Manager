@@ -7,6 +7,8 @@ import java.util.LinkedList;
 
 /**
  * @author chong
+ * This class is used for decide which response should the programm take
+ * when facing different kinds of commands.
  */
 public class Decision {
     final Priority[] priorities = Priority.values();
@@ -37,7 +39,8 @@ public class Decision {
                 if (in.getRunning() != 0){
                 int process = Integer.parseInt(commands[1]);
                 int units = Integer.parseInt(commands[2]);
-                in.requestResource(units, process);
+                in.requestResource(process, units);
+                System.out.println(in.getRunning());
                 outputList.add(Integer.toString(in.getRunning()));
                 }else{
                     System.out.println(-1);
@@ -47,7 +50,7 @@ public class Decision {
             } else if ("rl".equals(commands[0])) {
                 int resource = Integer.parseInt(commands[1]);
                 int units = Integer.parseInt(commands[2]);
-                in.releaseResource(resource, units);
+                in.releaseResource(resource, units, in.getRunning());
                 System.out.println(in.getRunning());
                 outputList.add(Integer.toString(in.getRunning()));
             } else if ("to".equals(commands[0])) {

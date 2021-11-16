@@ -28,9 +28,9 @@ public class Shell {
                 String[] commands = command.split(" ");
                 ReadWrite rw = new ReadWrite();
                 File cwd = new File("data");
-                File inputFile = new File(cwd.getPath() + "/" + commands[1] +".txt");
+                File inputFile = new File(cwd.getAbsolutePath() + "/" + commands[1] +".txt");
                 LinkedList<String> inputList = rw.readFile(inputFile);
-                File outputFile = new File(cwd.getPath() + "/output.txt");
+                File outputFile = new File(cwd.getAbsolutePath() + "/output.txt");
                 for (String str : inputList) {
                     System.out.println(str);
                     main.decision(str);

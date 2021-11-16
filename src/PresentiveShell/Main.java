@@ -2,7 +2,9 @@ package PresentiveShell;
 
 import DataStructure.*;
 
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 
 /***
  * @author chong
@@ -49,7 +51,7 @@ public class Main {
      * @param priority process's priority which get from terminal
      */
     void creatProcess(Priority priority) {
-        index = getLeastIndex();
+        index = getLeastIndex();// get least available index from PCB
         pcbUsed[index] = true;
         if (running != index) {
             pcbs[index] = new PCB(running, priority);
@@ -72,6 +74,13 @@ public class Main {
             destroyProcess(pcbs[index].getChild());
         }
         pcbs[pcbs[index].getParent()].deleteChildren(); //delete itself from parent's children list
+        // call release function to release all resources this process owned.
+        Map<Integer, Integer> resourceOwned = pcbs[index].releaseAllResources();
+        Iterator<Map.Entry<Integer, Integer>> it = resourceOwned.entrySet().iterator();
+        while (((Iterator<?>) it).hasNext()) {
+            Map.Entry<Integer, Integer> pair = it.next();
+            releaseResource(pair.getKey(), pair.getValue(), index);
+        }
         if (rl.existInRl(index)) {
             rl.removeProcess(index);
         } else {
@@ -84,7 +93,7 @@ public class Main {
         pcbUsed[index] = false;
     }
 
-    void requestResource(int units, int resource) {
+    void requestResource(int resource, int units) {
         if(rcbs[resource].getInventory() >= units){
         if (rcbs[resource].allocateResource(units)) {
             pcbs[running].requestResource(resource, units);
@@ -95,14 +104,13 @@ public class Main {
             scheduleProcess();
         }
         }else{
-            System.out.println(-1);
+            throw new NullPointerException();
         }
-            System.out.println(running);
     }
 
-    void releaseResource(int resource, int units) {
+    void releaseResource(int resource, int units, int index) {
         // only allow the process releases less greater than resource they own
-        if (pcbs[running].getOwnedResource(resource) >= units && units < rcbs[resource].getInventory() ) {
+        if (pcbs[index].getOwnedResource(resource) >= units && units <= rcbs[resource].getInventory() ) {
             LinkedList<RequestInfo> info = rcbs[resource].releaseResource(units);
             for (RequestInfo item : info
             ) {
@@ -113,7 +121,7 @@ public class Main {
                 rl.add2ReadyList(process, pcbs[process].getPriority());
 
             }
-            pcbs[running].releaseResource(resource);
+            pcbs[index].releaseResource(resource);
             scheduleProcess();
         } else {
             throw new NullPointerException();
