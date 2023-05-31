@@ -10,7 +10,7 @@ java PresentiveShell.Shell
 ```
 If wanting to use a file as input, just input auto command at the beginning and append it with the file's name default located in the data directory
 
-Exg:
+e.g.:
 
 ```bash
 auto file.txt
